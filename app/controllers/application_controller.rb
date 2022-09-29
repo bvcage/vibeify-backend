@@ -27,18 +27,18 @@ class ApplicationController < Sinatra::Base
       # get logged in user via spotify id
       spotify_user_id = api["spotify_user_id"]
       user_id = User.find_by(spotify_id: spotify_user_id).id
-      # # save playlist
-      playlistsAry = api["playlists"]
-      playlistsAry.map do |apiPlaylist|
-         dbPlaylist = Playlist.find_or_create_by(spotify_id: apiPlaylist["id"])
-         dbPlaylist = dbPlaylist.update(
-            name: apiPlaylist["name"],
-            image_url: apiPlaylist["images"][0]["url"],
+      # save array to playlists table
+      playlists_ary = api["playlists"]
+      return_ary = playlists_ary.map do |api_playlist|
+         db_playlist = Playlist.find_or_create_by(spotify_id: api_playlist["id"])
+         db_playlist = db_playlist.update(
+            name: api_playlist["name"],
+            image_url: api_playlist["images"][0]["url"],
             user_id: user_id,
-            owner_id: apiPlaylist["owner"]["id"],
+            owner_id: api_playlist["owner"]["id"],
          )
       end
-      { message: 'done' }.to_json
+      return_ary.to_json
    end
  
 end
