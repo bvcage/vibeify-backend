@@ -5,5 +5,17 @@ class ApplicationController < Sinatra::Base
    get "/" do
      { message: "Good luck with your project!" }.to_json
    end
+
+   get "/users" do
+      User.all
+   end
+
+   post "/users" do
+      api = JSON.parse(request.body.read)
+      user = User.find_or_create_by(spotify_id: api["spotify_id"]) do |user|
+         user.username = api["username"]
+      end
+      user.to_json
+   end
  
 end
