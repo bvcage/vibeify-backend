@@ -40,5 +40,22 @@ class ApplicationController < Sinatra::Base
       end
       return_ary.to_json
    end
- 
+
+   get "/songs" do
+      Song.all
+   end
+
+   post "/songs" do
+      api = JSON.parse(request.body.read)
+      songs_ary = api["songsAry"]
+      return_ary = songs_ary.map do |api_song|
+         db_song = Song.find_or_create_by(spotify_id: api_song["id"])
+         db_song = db_song.update(
+            name: api_song["name"],
+            album_spotify_id: api_song["album"]["id"]
+         )
+      end
+      return_ary.to_json
+   end
+
 end
