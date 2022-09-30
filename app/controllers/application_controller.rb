@@ -58,4 +58,18 @@ class ApplicationController < Sinatra::Base
       return_ary.to_json
    end
 
+   post "/saves" do
+      api = JSON.parse(request.body.read)
+      playlist_spotify_id = api["playlist_spotify_id"]
+      song_id_list = api["song_id_list"]
+      song_id_list.each do |song_spotify_id|
+         s = Save.find_or_create_by(playlist_spotify_id: playlist_spotify_id, song_spotify_id: song_spotify_id)
+         s.update(
+            playlist_id: Playlist.find_or_create_by(spotify_id: playlist_spotify_id)["id"],
+            song_id: Song.find_or_create_by(spotify_id: song_spotify_id)["id"]
+         )
+      end
+      { message: "ok" }.to_json
+   end
+ 
 end
