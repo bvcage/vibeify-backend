@@ -10,7 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_09_29_171635) do
+ActiveRecord::Schema.define(version: 2022_10_15_200151) do
+
+  create_table "audio_features", force: :cascade do |t|
+    t.integer "song_id"
+    t.string "spotify_song_id"
+    t.float "acousticness"
+    t.float "danceability"
+    t.float "energy"
+    t.float "instrumentalness"
+    t.integer "key"
+    t.float "liveness"
+    t.float "loudness"
+    t.integer "mode"
+    t.float "speechiness"
+    t.float "tempo"
+    t.integer "time_signature"
+    t.float "valence"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "playlists", force: :cascade do |t|
     t.string "spotify_id"
@@ -31,6 +50,10 @@ ActiveRecord::Schema.define(version: 2022_09_29_171635) do
     t.string "spotify_id"
     t.string "name"
     t.string "album_spotify_id"
+    t.string "album_name"
+    t.string "album_art_url"
+    t.string "artist"
+    t.string "spotify_url"
   end
 
   create_table "users", force: :cascade do |t|
