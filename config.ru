@@ -13,3 +13,8 @@ use Rack::JSONBodyParser
 
 # Our application
 run ApplicationController
+use UsersController
+use SongsController
+use PlaylistsController
+use SavesController
+use AudioFeaturesController
