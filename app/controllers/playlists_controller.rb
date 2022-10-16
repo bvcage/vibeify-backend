@@ -69,6 +69,25 @@ class PlaylistsController < ApplicationController
       { **playlist.attributes, songs: songs.flatten.uniq }.to_json
    end
 
+   put "/playlists/:id" do
+      api = JSON.parse(request.body.read)
+      user = api["user"]
+      data = api["data"]
+      playlist = Playlist.find_by!(id: params[:id])
+      playlist.update(
+         description: data["description"],
+         image_url: data["image_url"],
+         name: data["name"],
+         owner_id: data["owner_id"],
+         spotify_id: data["spotify_id"],
+         user_id: data["user_id"],
+         vibeify: data["vibeify"]
+      )
+      songs = data["songs"].map { |song| Song.find_by(spotify_id: song[:spotify_id]) }
+      playlist.songs.replace(songs)
+      playlist.to_json(include: :songs)
+   end
+
    delete "/playlists" do
       Playlist.destroy_all
       render status: 204
