@@ -25,4 +25,11 @@ class UsersController < ApplicationController
       { 'error': 'no user found' }
    end
 
+   delete "/users/:id/cleanup" do
+      user = User.find_by!(id: params[:id])
+      user.playlists.where(vibeify: true).destroy_all
+   rescue ActiveRecord::RecordNotFound
+      { 'error': 'no user found' }
+   end
+
 end
