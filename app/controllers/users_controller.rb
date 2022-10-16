@@ -22,14 +22,23 @@ class UsersController < ApplicationController
       user = User.find_by!(id: params[:id])
       user.playlists.to_json
    rescue ActiveRecord::RecordNotFound
-      { 'error': 'no user found' }
+      { 'error': 'no user found' }.to_json
+   end
+
+   get "/users/:id/vibeify" do
+      user = User.find_by!(id: params[:id])
+      defaults = Playlist.make_defaults user
+      vibeify = Playlist.all.where(vibeify: true)
+      vibeify.to_json(include: :songs)
+   rescue ActiveRecord::RecordNotFound
+      { 'error': 'no user found' }.to_json
    end
 
    delete "/users/:id/cleanup" do
       user = User.find_by!(id: params[:id])
       user.playlists.where(vibeify: true).destroy_all
    rescue ActiveRecord::RecordNotFound
-      { 'error': 'no user found' }
+      { 'error': 'no user found' }.to_json
    end
 
 end

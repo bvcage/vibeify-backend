@@ -27,12 +27,6 @@ class PlaylistsController < ApplicationController
       return_ary.to_json
    end
 
-   get "/playlists/defaults" do
-      defaults = Playlist.get_defaults
-      if defaults.empty? then defaults = Playlist.make_defaults end
-      defaults.to_json(include: :songs)
-   end
-
    post "/playlists/merge" do
       api = JSON.parse(request.body.read)
       # get user
@@ -84,7 +78,8 @@ class PlaylistsController < ApplicationController
          vibeify: data["vibeify"]
       )
       songs = data["songs"].map { |song| Song.find_by(spotify_id: song[:spotify_id]) }
-      playlist.songs.replace(songs)
+      playlist.songs.clear
+      playlist.songs << songs
       playlist.to_json(include: :songs)
    end
 
