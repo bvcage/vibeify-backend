@@ -57,7 +57,7 @@ class PlaylistsController < ApplicationController
          end
          item.songs
       end
-      { **playlist.attributes, songs: songs.flatten }.to_json
+      { **playlist.attributes, songs: songs.flatten.uniq }.to_json
    end
 
    delete "/playlists" do
