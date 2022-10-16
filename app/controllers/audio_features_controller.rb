@@ -4,6 +4,7 @@ class AudioFeaturesController < ApplicationController
       api = JSON.parse(request.body.read)
       profiles = api["data"]
       return_ary = profiles.map do |api_profile|
+         next if api_profile.nil?
          song = Song.find_by!(spotify_id: api_profile["id"])
          profile = AudioFeature.find_or_create_by(song_id: song.id) do |profile|
             profile.acousticness = api_profile["acousticness"]

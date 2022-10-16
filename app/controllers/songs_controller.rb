@@ -9,9 +9,9 @@ class SongsController < ApplicationController
       songs = api["data"]
       return_ary = songs.map do |api_song|
          # validation / error checks
+         next if api_song.nil?   # skip if song empty / removed
          if api_song.key?(:track) then api_song = api_song["track"] end   # remove extra info
          if api_song.key?(:is_local) then next if api_song["is_local"] end   # skip if local
-         next if api_song.nil?   # skip if song empty / removed
          # save song
          db_song = Song.find_or_create_by(spotify_id: api_song["id"])
          artists = api_song["artists"].map{|artist| artist["name"]}.join(', ')

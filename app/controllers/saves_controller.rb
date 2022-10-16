@@ -8,6 +8,7 @@ class SavesController < ApplicationController
          songs = api_playlist['songs']
          songs = songs.map do |api_song|
             api_song = api_song['track']
+            next if api_song.nil?   # skip if empty
             db_song = Song.find_or_create_by(spotify_id: api_song['id'])
             Save.find_or_create_by(playlist_spotify_id: db_playlist.spotify_id, song_spotify_id: db_song.spotify_id) do |save|
                save.playlist_id = db_playlist.id
