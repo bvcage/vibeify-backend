@@ -26,6 +26,12 @@ class PlaylistsController < ApplicationController
       return_ary.to_json
    end
 
+   get "/playlists/defaults" do
+      defaults = Playlist.get_defaults
+      if defaults.empty? then defaults = Playlist.make_defaults end
+      defaults.to_json(include: :songs)
+   end
+
    post "/playlists/merge" do
       api = JSON.parse(request.body.read)
       # get user
