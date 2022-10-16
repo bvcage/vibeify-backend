@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_15_200151) do
+ActiveRecord::Schema.define(version: 2022_10_16_022712) do
 
   create_table "audio_features", force: :cascade do |t|
     t.integer "song_id"
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 2022_10_15_200151) do
     t.string "image_url"
     t.string "owner_id"
     t.integer "user_id"
+    t.boolean "vibeify"
   end
 
   create_table "saves", force: :cascade do |t|
