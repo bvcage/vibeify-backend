@@ -8,3 +8,8 @@ Bundler.require(:default, ENV['RACK_ENV'])
 
 # Require in all files in 'app' directory
 require_all 'app'
+
+# Custom singularization
+ActiveSupport::Inflector.inflections do |inflect|
+   inflect.irregular 'save', 'saves'
+end
