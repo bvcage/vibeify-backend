@@ -22,4 +22,9 @@ class SavesController < ApplicationController
       return_ary.to_json
    end
 
+   delete "/saves" do
+      api = JSON.parse(request.body.read)
+      Save.find_by(song_id: api["song_id"], playlist_id: api["playlist_id"]).destroy
+   end
+
 end
