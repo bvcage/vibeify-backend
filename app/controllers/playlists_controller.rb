@@ -48,7 +48,8 @@ class PlaylistsController < ApplicationController
       playlist = Playlist.create(
          name: name,
          user_id: user.id,
-         owner_id: user.spotify_id
+         owner_id: user.spotify_id,
+         vibeify: true
       )
       # create joins
       songs = merge.map do |item|
