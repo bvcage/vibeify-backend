@@ -10,7 +10,11 @@ class Playlist < ActiveRecord::Base
    def self.make_defaults
       songs_list = Song.categorize_songs
       songs_list.map do |cat, songs|
-         playlist = Playlist.find_or_create_by(name: cat, vibeify: true)
+         playlist = Playlist.find_or_create_by(
+            name: "#{cat} vibes",
+            vibeify: true,
+            description: "made with vibeify"
+         )
          if playlist.songs.count < 20 then playlist.songs << songs end
          playlist
       end

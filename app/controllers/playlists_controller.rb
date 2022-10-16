@@ -18,6 +18,7 @@ class PlaylistsController < ApplicationController
             image_url: api_playlist["images"][0]["url"],
             user_id: user.id,
             owner_id: api_playlist["owner"]["id"],
+            description: api_playlist["description"]
          )
          db_playlist
       end
@@ -44,12 +45,13 @@ class PlaylistsController < ApplicationController
       # create merge playlist
       list = api["data"]
       merge = list.map { |item| Playlist.find(item)}
-      name = "Merge of " + merge.pluck(:name).join(' & ')
+      description = "made with vibeify: merge of " + merge.pluck(:name).join(' & ')
       playlist = Playlist.create(
-         name: name,
+         name: "my vibeify playlist",
          user_id: user.id,
          owner_id: user.spotify_id,
-         vibeify: true
+         vibeify: true,
+         description: description
       )
       # create joins
       songs = merge.map do |item|

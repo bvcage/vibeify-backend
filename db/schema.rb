@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(version: 2022_10_16_022712) do
     t.string "owner_id"
     t.integer "user_id"
     t.boolean "vibeify"
+    t.text "description"
   end
 
   create_table "saves", force: :cascade do |t|
