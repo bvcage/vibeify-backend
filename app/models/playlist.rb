@@ -7,15 +7,18 @@ class Playlist < ActiveRecord::Base
       Playlist.all.where(vibeify: true)
    end
 
-   def self.make_defaults
-      songs_list = Song.categorize_songs
+   def self.make_defaults user
+      songs_list = Song.categorize_songs( user.own_songs )
       songs_list.map do |cat, songs|
          playlist = Playlist.find_or_create_by(
             name: "#{cat} vibes",
             vibeify: true,
-            description: "made with vibeify"
+            description: "made with vibeify",
+            user_id: user.id,
+            owner_id: user.spotify_id
          )
-         if playlist.songs.count < 20 then playlist.songs << songs end
+         playlist.songs << songs
+         playlist.songs = playlist.songs.uniq
          playlist
       end
    end

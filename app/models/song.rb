@@ -3,7 +3,7 @@ class Song < ActiveRecord::Base
    has_many :saves
    has_many :playlists, through: :saves
 
-   def self.categorize_songs
+   def self.categorize_songs ( songs = Song.all )
       categories = ['happy', 'sad']
 
       list = {}
@@ -11,7 +11,7 @@ class Song < ActiveRecord::Base
          list[cat] = []
       end
 
-      Song.all.each do |song|
+      songs.each do |song|
          feat = song.audio_feature
          next if feat.nil?
          categories.each do |cat|
